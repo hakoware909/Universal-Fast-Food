@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"> 
+    <link rel="shortcun icon" type="x-icon" href="images/logo1.png">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Delivery</title>
+
+    <style>
+    
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        section {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            text-align: center;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .container img {
+            max-width: 80%; /* Adjust the value to resize the image */
+            height: auto; /* Maintain the aspect ratio */
+            display: block; /* Remove extra space below the image */
+            margin: 0 auto; /* Center the image horizontally */
+        }
+
+        h1 {
+            font-family: "Montserrat";
+            font-size: 60px; /* Adjust the value to resize the font */
+            margin-bottom: 10px; /* Add some space between time and text */
+        }
+
+        .message {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333; /* Adjust color as needed */
+        }
+
+        .footerContainer {
+            margin-top: 20px;
+            flex-shrink: 0;
+            color: whitesmoke;
+        }
+
+        footer {
+            background-color: white;
+            margin-top: auto;
+        }
+
+        .footerBottom {
+            background-color: rgb(202, 6, 6);
+            padding: 35px; /* Adjust the padding as needed */
+            text-align: center;
+        }
+
+body {
+  font-family:"Raleway",sans-serif;
+}
+.center {
+  position:absolute;
+  top:35%;
+  left:15%;
+  transform:translate(-50%,-50%);
+}
+.center button {
+  padding:10px 20px;
+  background:#fff;
+  color:#222;
+  border:1px solid #222;
+  outline:none;
+  border-radius:20px;
+  font-size:16px;
+}
+.popup {
+  position: absolute;
+  top: -23%;
+  left: 18%; /* Updated to 10% from 50% */
+  transform: translate(-50%, -50%) scale(1.2);
+  opacity: 0;
+  width: 450px;
+  background: #fff;
+  border-radius: 5px;
+  box-shadow: 2px 2px 5px 2px rgba(0, 0, 0, 0.15);
+  transition: top 0ms ease-in-out 200ms,
+    opacity 200ms ease-in-out 0ms,
+    transform 200ms ease-in-out 0ms;
+}
+
+.popup.active {
+  top:50%;
+  opacity:1;
+  transform:translate(-50%,-50%) scale(1);
+  transition:top 0ms ease-in-out 0ms,
+             opacity 200ms ease-in-out 0ms,
+             transform 200ms ease-in-out 0ms;
+}
+.popup .head {
+  padding:30px 20px;
+  background:#57af57;
+  text-align:center;
+}
+.popup .head .icon .box {
+  display:inline-block;
+  width:80px;
+  height:80px;
+  background:#f5f5f5;
+  font-size:40px;
+  line-height:80px;
+  color:#57af57;
+  border-radius:50%;
+}
+.popup .body {
+  padding:20px;
+  text-align:center;
+}
+.popup .body h1 {
+  font-size:25px;
+  margin-bottom:10px;
+  color:#222;
+}
+.popup .body p {
+  font-size:15px;
+  color:#555;
+  margin-bottom:20px;
+}
+.popup .body .close-btn {
+  padding:10px 20px;
+  border:1px solid #888;
+  color:#888;
+  background:#fff;
+  border-radius:20px;
+  font-size:16px;
+  cursor:pointer;
+  outline:none;
+}
+
+    </style>
+    
+</head>
+<body>
+
+    <section>
+        <div class="container">
+            <img src="images/driver.gif" alt="">
+            <h1 id="timer">00:00</h1>
+            <p class="message" id="message">Preparing and packing your order...</p>
+        </div>
+    </section>
+
+    
+    <div class="footerContainer">
+        <div class="footerBottom">
+            <p>Copyright &copy; 2023; Designed by <span class="designer">Kenny Fazbear</span></p>
+        </div>
+    </div>
+
+    <div class="center">
+        <button id="open-popup">Click this</button>
+        <button id="open-receipt" onclick="openReceiptTab()">View Receipt</button>
+      </div>
+
+      <div class="popup">
+        <div class="head">
+          <div class="icon">
+            <div class="box">
+              <i class="fa fa-check"></i>
+            </div>
+          </div>
+        </div>
+        <div class="body">
+          <h1>Thank You for Buying</h1>
+          
+          <p>Just wait for a little while, the delivery rider will calls you when he is near your address.</p>
+          <button class="close-btn">&times; Close</button>
+
+
+
+    <script>
+        let timeSecond = 600; // 10 minutes
+        const timeH = document.getElementById("timer");
+        const messageP = document.getElementById("message");
+
+        displayTime(timeSecond);
+
+        const countDown = setInterval(() => {
+            timeSecond--;
+            displayTime(timeSecond);
+
+            // Display messages at specified intervals
+            if (timeSecond == 480) {
+                messageP.innerHTML = "The delivery guy got your order";
+            } else if (timeSecond == 180) {
+                messageP.innerHTML = "The delivery guy is around the corner, he will be arriving shortly";
+            } else if (timeSecond == 0 || timeSecond < 1) {
+                endCount();
+                clearInterval(countDown);
+            }
+        }, 1000);
+
+        function displayTime(second) {
+            const min = Math.floor(second / 60);
+            const sec = Math.floor(second % 60);
+            timeH.innerHTML = `
+                ${min < 10 ? "0" : ""}${min}:${sec < 10 ? "0" : ""}${sec}
+            `;
+        }
+
+        function endCount() {
+            messageP.innerHTML = "Your order is here, please accept the call";
+        }
+        document.querySelector("#open-popup").addEventListener("click",function(){
+  document.querySelector(".popup").classList.add("active");
+});
+document.querySelector(".popup .close-btn").addEventListener("click",function(){
+  document.querySelector(".popup").classList.remove("active");
+});
+
+function generateReceipt() {
+    // Generate receipt content based on the items in the cart
+    let receiptContent = "<h2>Receipt</h2>";
+
+    listCart.forEach((product) => {
+        receiptContent += `
+            <div class="receipt-item">
+                <img src="${product.image}" alt="${product.name}">
+                <div class="info">
+                    <div class="name">${product.name}</div>
+                    <div class="price">${typeof product.price === "number" ? "₱" + product.price.toFixed(2) : product.price}/1 product</div>
+                </div>
+                <div class="quantity">${product.quantity}</div>
+                <div class="returnPrice">${typeof product.price === "number" ? "₱" + (product.price * product.quantity).toFixed(2) : product.price}</div>
+            </div>
+        `;
+    });
+
+    // Add total quantity, total price, and payment method to the receipt
+    receiptContent += `
+        <div class="receipt-total">
+            <div>Total Quantity</div>
+            <div class="totalQuantity">${listCart.reduce((total, product) => total + product.quantity, 0)}</div>
+        </div>
+        <div class="receipt-total">
+            <div>Total Price</div>
+            <div class="totalPrice">₱${listCart.reduce((total, product) => total + product.price * product.quantity, 0).toFixed(2)}</div>
+        </div>
+        <div class="receipt-total">
+            <div>Payment Method</div>
+            <div class="paymentMethod">${document.getElementById("payment").value}</div>
+        </div>
+        <button onclick="closeReceiptPopup()">OK</button>
+    `;
+
+    return receiptContent;
+}
+function openReceiptTab() {
+            // You can adjust the path to 'receipt.html' based on your project structure
+            const receiptURL = 'receipt.html';
+            window.open(receiptURL, '_blank');
+        }
+    </script>
+</body>
+</html>

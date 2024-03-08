@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="shortcut icon" type="image/x-icon" href="images/logo1.png">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <!-- Custom Style -->
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <title>Reciept</title>
+
+    <style>
+
+:root {
+    --body-bg: rgb(204, 204, 204);
+    --white: #ffffff;
+    --darkWhite: #ccc;
+    --black: #000000;
+    --dark: #615c60;
+    --themeColor: #ff3838;
+    --pageShadow: 0 0 0.5cm rgba(0, 0, 0, 0.5);
+}
+
+/* Font Include */
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@600&display=swap');
+
+        body{
+            font-family: monospace;
+            overflow-x: hidden;
+            font-synthesis: 15px;
+        }
+        body {
+            background-color: var(--body-bg);
+        }
+        a{
+            text-decoration: none;
+        }
+        .container{
+            width: 1200px;
+            margin: auto;
+            max-width: 90%;
+            transition: transform 1s;
+        }
+        
+        .checkoutLayout{
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 50px;
+            padding: 20px;
+        }
+        .checkoutLayout .right{
+            background-color: #5358B3;
+            border-radius: 20px;
+            padding: 40px;
+            color: #fff;
+        }
+        .checkoutLayout .right .form{
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            border-bottom: 1px solid #7a7fe2;
+            padding-bottom: 20px;
+        }
+        .checkoutLayout .form h1,
+        .checkoutLayout .form .group:nth-child(-n+3){
+            grid-column-start: 1;
+            grid-column-end: 3;
+        }
+        .checkoutLayout .form input, 
+        .checkoutLayout .form select
+        {
+            width: 100%;
+            padding: 10px 20px;
+            box-sizing: border-box;
+            border-radius: 20px;
+            margin-top: 10px;
+            border:none;
+            background-color: #6a6fc9;
+            color: #fff;
+        }
+        .checkoutLayout .right .return .row{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+        }
+        .checkoutLayout .right .return .row div:nth-child(2){
+            font-weight: bold;
+            font-size: x-large;
+        }
+        .buttonCheckout{
+            width: 100%;
+            height: 40px;
+            border: none;
+            border-radius: 20px;
+            background-color: #49D8B9;
+            margin-top: 20px;
+            font-weight: bold;
+            color: #fff;
+            cursor: pointer;
+        }
+        .buttonCheckout:hover{
+            opacity: 0.8;
+        }
+        .product-area {
+            position: relative;
+            top: -35px; /* Adjust the top value as needed */
+            margin-right: -10px;
+            margin-bottom: -50px;
+        }
+        .returnCart h1{
+            border-top: 1px solid #eee;  
+            padding: 20px 0;
+        }
+        .returnCart .list .item img{
+            height: 45px;
+            width: 45px; /* Make the image fill its container */
+            border-radius: 20px; /* Rounded corners for the image */
+        }
+        .returnCart .list .item{
+            display: grid;
+            grid-template-columns: 50px 1fr  150px 100px;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 20px #5555;
+            border-radius: 20px;
+        }
+        .returnCart .list .item .name,
+        .returnCart .list .item .returnPrice{
+            font-size: large;
+            font-weight: bold;
+        }
+        .container1{
+          width: 100%;
+          height: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .popup{
+          width: 400px;
+          background: #fff;
+          border-radius: 6px;
+          position: absolute;
+          top: 0%;
+          left: 50%;
+          transform: translate(-50%, -50%)scale(0.1);
+          text-align: center;
+          padding: 0 30px 30px;
+          color: #333;
+          visibility: hidden;
+          transition: transform 0.4s, top 0.4s;
+        }
+        .open-popup{
+          visibility: visible;
+          top: 50%;
+          transform: translate(-50%, -50%)scale(1);
+        }
+        
+        .popup img{
+          width: 100px;
+          margin-top: -50px;
+          border-radius: 50%;
+          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        .popup h2{
+          font-size: 38px;
+          font-weight: 500;
+          margin: 30px 0 10px;
+        }
+        .pop p{
+          font-size: 10px;
+        }
+        .popup button{
+          width: 100%;
+          margin-top: 50px;
+          padding: 10px 0;
+          background: #6fd649;
+          color: #fff;
+          border: 0;
+          outline: none;
+          font-size: 18px;
+          border-radius: 4px;
+          cursor: pointer;
+          box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .page {
+    background: var(--white);
+    display: block;
+    margin: 0 auto;
+    position: relative;
+    box-shadow: var(--pageShadow);
+}
+
+.page[size="A4"] {
+    width: 21cm;
+    height: 29.7cm;
+    overflow: hidden;
+}
+
+.bb {
+    border-bottom: 3px solid var(--darkWhite);
+}
+
+/* Top Section */
+.top-content {
+    padding-bottom: 15px;
+}
+
+.logo img {
+    height: 60px;
+}
+
+.top-left p {
+    margin: 0;
+}
+
+.top-left .graphic-path {
+    height: 40px;
+    position: relative;
+}
+
+.top-left .graphic-path::before {
+    content: "";
+    height: 20px;
+    background-color: var(--dark);
+    position: absolute;
+    left: 15px;
+    right: 0;
+    top: -15px;
+    z-index: 2;
+}
+
+.top-left .graphic-path::after {
+    content: "";
+    height: 22px;
+    width: 17px;
+    background: var(--black);
+    position: absolute;
+    top: -13px;
+    left: 6px;
+    transform: rotate(45deg);
+}
+
+.top-left .graphic-path p {
+    color: var(--white);
+    height: 40px;
+    left: 0;
+    right: -100px;
+    text-transform: uppercase;
+    background-color: var(--themeColor);
+    font: 26px;
+    z-index: 3;
+    position: absolute;
+    padding-left: 10px;
+}
+
+/* User Store Section */
+.store-user {
+    padding-bottom: 25px;
+}
+
+.store-user p {
+    margin: 0;
+    font-weight: 600;
+}
+
+.store-user .address {
+    font-weight: 400;
+}
+
+.store-user h2 {
+    color: var(--themeColor);
+    font-family: 'Rajdhani', sans-serif;
+}
+
+.extra-info p span {
+    font-weight: 400;
+}
+
+        /* Cart BG */
+.cart-bg {
+    height: 150px;
+    bottom: 60px;
+    left: -25px;
+    opacity: 0.3;
+    position: absolute;
+}
+
+/* Footer Section */
+footer {
+    text-align: center;
+    position: absolute;
+    bottom: 30px;
+    left: 35px;
+    right: 35px;
+}
+
+footer hr {
+    margin-bottom: -22px;
+    border-top: 3px solid var(--darkWhite);
+}
+
+footer a {
+    color: var(--themeColor);
+}
+
+footer p {
+    padding: 6px;
+    border: 3px solid var(--darkWhite);
+    background-color: var(--white);
+    display: inline-block;
+}
+
+#save_to_image {
+  width: 100%;
+  max-width: 800px;
+  height: auto;
+  text-decoration: none;
+}
+
+.buttons-container {
+  width: 100%;
+  max-width: 800px;
+  height: 80px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 20px;
+}
+
+.buttons-container button {
+  margin: 5px;
+  border: none;
+  outline: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  color: #fff;
+  transition: all 0.5s ease-in;
+}
+
+#save {
+  background-color: green;
+}
+
+#print {
+  background-color: blue;
+}
+
+#print:hover,
+#save:hover {
+  background-color: #333;
+}
+.real-time-date {
+  text-align: right;
+  margin-top: 10px;
+  font-size: 14px;
+  color: #333;
+}
+#receiptContainer {
+  display: none;
+ }
+/* Director Signature */
+.director-signature {
+    width: 200px; /* Adjust the width as needed */
+    margin-top: 10px;
+    float: right; /* Add this property to move it to the right */
+}
+.social {
+    display: flex;
+    justify-content: space-around;
+    padding-top: 3%;
+}
+
+.social i {
+    font-size: 24px;
+}
+
+.social span {
+    font-size: 14px;
+}
+
+        </style>
+</head>
+<body>
+
+    <div id="receiptContainer">
+        <!-- Receipt content will be dynamically populated here -->
+      </div>
+      
+
+    <div class="buttons-container">
+        <button id="save">Save</button>
+        <button id="print">Print</button>
+      </div>
+    <div class="my-5 page" size="A4">
+        <div class="p-5">
+            <section class="top-content bb d-flex justify-content-between">
+                <div class="logo">
+                    <img src="images/logo1.png" alt="" class="img-fluid">
+                </div>
+                <div class="top-left">
+                    <div class="graphic-path">
+                        <p>Receipt</p>
+                    </div>
+                    <div class="position-relative">
+                        <p>Invoice No. <span>XXXX</span></p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="store-user mt-5">
+                <div class="col-10">
+                    <div class="row bb pb-3">
+                        <div class="col-7">
+                            <p>Supplier,</p>
+                            <h2>Universal Fast Food</h2>
+                            <p class="address"> 092 Borromeo St., <br> Surigao del Norte State University, <br>Surigao City</p>
+                        </div>
+                        <div class="col-5">
+                            <p>Client,</p>
+<!-- Add these placeholders in the appropriate sections of your receipt -->
+                        <p id="customerName"></p>
+                        <p id="customerPhone"></p>
+                        <p id="customerAddress"></p>
+
+                        <p id="cardType"></p>
+<!-- Add other placeholders as needed -->
+
+                        </div>
+                    </div>
+                    <div class="row extra-info pt-3">
+                        <div class="col-7">
+                            <p id="paymentMethod"></p>
+                            <p>Order Number: <span>#868</span></p>
+                        </div>
+                        <div class="col-5">
+                            <div class="real-time-date" id="realTimeDate"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="product-area mt-4">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <td>Item Description/Price</td>
+                            <td>Quantity</td>
+                            <td>Total</td>
+                        </tr>
+                    </thead>
+                </table>
+            </section>
+
+    <div class="returnCart">
+        <div class="list">
+            <div class="item">
+                <img src="images/order/1.png">
+                <div class="info">
+                    <div class="name">Chowking Pork Chowfan</div>
+                    <div class="price">₱179/1 product</div>
+                </div>
+                <div class="quantity">3</div>
+                <div class="returnPrice">433.3</div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="return">
+        <div class="row">
+            <div>Total Quantity= </div>
+            <div class="totalQuantity">70</div>
+        </div>
+        <div class="row">
+            <div>Total Price= </div>
+            <div class="totalPrice">$900</div>
+        </div>
+    </div>
+
+ <!-- Signature -->
+<div class="col-12">
+    <div class="director-signature">
+        <img src="images/signature1.png" class="img-fluid" alt="">
+        <p class="text-center m-0"> Director Signature </p>
+    </div>
+</div>
+
+<!-- Cart BG -->
+<img src="images/cart.jpg" class="img-fluid cart-bg" alt="">
+
+<footer>
+    <hr>
+<p class="m-0 text-center">
+        View This Invoice Online At - <a href="#!">uff@gmail.com/order-number-#868</a>
+</p>
+        <div class="social pt-3">
+<span class="pr-2">
+            <i class="fas fa-mobile-alt"></i>
+<span>09382227052</span>
+</span>
+<span class="pr-2">
+            <i class="fas fa-envelope"></i>
+<span>boruto321133@gmail.com</span>
+</span>
+<span class="pr-2">
+            <i class="fab fa-facebook-f"></i>
+<span>/nateriver4</span>
+</span>
+<span class="pr-2">
+            <i class="fab fa-youtube"></i>
+<span>/Ken Perandos</span>
+</span>
+<span class="pr-2">
+            <i class="fab fa-github"></i>
+<span>/hakoware1</span>
+</span>
+</div>
+</footer>
+</div>
+</div>
+
+
+
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+            // Retrieve checkout data from sessionStorage
+            
+            const checkoutData = JSON.parse(sessionStorage.getItem('checkoutData'));
+
+            // Display checkout data in the receipt
+            document.getElementById("customerName").innerText = checkoutData.name;
+            document.getElementById("customerPhone").innerText = checkoutData.phone;
+            document.getElementById("customerAddress").innerText = checkoutData.address;
+            document.getElementById("paymentMethod").innerText = checkoutData.payment;
+            document.getElementById("cardType").innerText = checkoutData.card;
+
+            // You can update other parts of the receipt similarly with the retrieved data
+});
+
+
+let listCart = [];
+function checkCart(){
+        var cookieValue = document.cookie
+        .split('; ')
+        .find(row => row.startsWith('listCart='));
+        if(cookieValue){
+            listCart = JSON.parse(cookieValue.split('=')[1]);
+        }
+}
+checkCart();
+addCartToHTML();
+function addCartToHTML(){
+    // clear data default
+    let listCartHTML = document.querySelector('.returnCart .list');
+    listCartHTML.innerHTML = '';
+
+    let totalQuantityHTML = document.querySelector('.totalQuantity');
+    let totalPriceHTML = document.querySelector('.totalPrice');
+    let totalQuantity = 0;
+    let totalPrice = 0;
+
+    if(listCart){
+        listCart.forEach(product => {
+            if(product){
+                let newCart = document.createElement('div');
+                newCart.classList.add('item');
+                newCart.innerHTML = 
+                    `<img src="${product.image}">
+                    <div class="info">
+                        <div class="name">${product.name}</div>
+                        <div class="price">${typeof product.price === 'number' ? '₱' + product.price.toFixed(2) : product.price}</div>
+                    </div>
+                    <div class="quantity">${product.quantity}</div>
+                    <div class="returnPrice">${typeof product.price === 'number' ? '₱' + product.price.toFixed(2) : product.price}</div>`;
+                listCartHTML.appendChild(newCart);
+                totalQuantity = totalQuantity + product.quantity;
+                totalPrice = totalPrice + (product.price * product.quantity);
+            }
+        });
+    }
+    totalQuantityHTML.innerText = totalQuantity;
+    totalPriceHTML.innerText = `₱${totalPrice.toFixed(2)}`;
+}
+
+let printBtn = document.querySelector("#print");
+    let saveBtn = document.querySelector("#save");
+
+printBtn.addEventListener("click", function () {
+  window.print();
+});
+
+saveBtn.addEventListener("click", function () {
+  html2canvas(document.querySelector("#save_to_image")).then(function (canvas) {
+    var link = document.querySelector("#save_to_image");
+    link.setAttribute("download", "123456.png");
+    link.setAttribute(
+      "href",
+      canvas.toDataURL("image/png").replace("image/png", "image/octet-stream")
+    );
+    link.click();
+  });
+});
+document.addEventListener("DOMContentLoaded", function () {
+    // Retrieve URL parameters
+    const params = new URLSearchParams(window.location.search);
+    const totalQuantity = params.get('totalQuantity');
+    const totalPrice = params.get('totalPrice');
+
+    // You can retrieve other parameters similarly and update the receipt accordingly.
+
+    // Save receipt content to sessionStorage
+    const receiptContent = document.getElementById("receiptContainer").innerHTML;
+    sessionStorage.setItem('receiptContent', receiptContent);
+});
+
+function updateRealTimeDate() {
+            const realTimeDateElement = document.getElementById('realTimeDate');
+            const currentDate = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', timeZoneName: 'short' };
+            const formattedDate = currentDate.toLocaleDateString('en-US', options);
+            realTimeDateElement.textContent = `Date: ${formattedDate}`;
+        }
+
+        // Update real-time date on page load
+        updateRealTimeDate();
+
+        // Update real-time date every second
+        setInterval(updateRealTimeDate, 1000);
+
+
+</script>
+</body>
+</html>
